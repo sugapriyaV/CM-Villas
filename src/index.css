@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { background: #183B32; }
+  body { @apply font-sans text-ink bg-ivory antialiased overflow-x-hidden; }
+  h1, h2, h3 { @apply font-serif font-medium; letter-spacing: -0.015em; }
+  ::selection { background: #C6A66B; color: #10291F; }
+  :focus-visible { outline: 2px solid #C6A66B; outline-offset: 3px; }
+  img { @apply select-none; }
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@layer components {
+.link-u { position: relative; display: inline-block; }
+.link-u::after { content: ''; position: absolute; left: 0; bottom: -4px; height: 1px; width: 100%; background: #C6A66B; transform: scaleX(0); transform-origin: right; transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.link-u:hover::after, .group:hover .link-u::after, .link-u.on::after { transform: scaleX(1); transform-origin: left; }
+.glass { background: rgba(255,255,255,.10); backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%); border: 1px solid rgba(255,255,255,.26); box-shadow: 0 40px 90px -40px rgba(0,0,0,.65); }
+.ln { display: block; will-change: transform; }
+.btn { display: inline-flex; align-items: center; gap: .6rem; padding: .95rem 1.7rem; border-radius: 999px; font-size: .875rem; font-weight: 500; transition: background .5s, color .5s, border-color .5s; overflow: hidden; }
+.btn .arr { transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.btn:hover .arr { transform: translate(3px,-3px); }
+}
+input[type=date] { color-scheme: dark; }
+.light-date input[type=date] { color-scheme: light; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
