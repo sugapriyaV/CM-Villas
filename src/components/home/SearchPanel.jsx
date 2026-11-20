@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DESTINATIONS } from '../../data/properties';
+import { track } from '../../lib/analytics';
 
 const today = () => new Date().toISOString().slice(0, 10);
 const field = 'gf w-full rounded-full border border-white/20 bg-white/5 px-5 py-3.5 text-sm text-ivory outline-none transition-colors focus:border-gold [&>option]:text-ink';
@@ -12,6 +13,7 @@ export default function SearchPanel() {
     e.preventDefault();
     const q = new URLSearchParams();
     if (f.type) q.set('type', f.type); if (f.dest) q.set('dest', f.dest); q.set('guests', f.guests);
+    track('search', { dest: f.dest || 'all' });
     nav(`/villas?${q}`);
   };
   return (
@@ -19,7 +21,7 @@ export default function SearchPanel() {
       <div className="flex flex-col gap-4 border-b border-white/15 pb-5 md:flex-row md:items-end md:justify-between">
         <div className="gf"><p className="font-serif text-3xl leading-none">Luxury stays</p><p className="mt-2 text-sm text-ivory/70">Find your perfect escape.</p></div>
         <div className="gf flex gap-2" role="group" aria-label="Property type">
-          {[['', 'All'], ['Villa', 'Villas'], ['Resort', 'Resorts']].map(([v, l]) => (
+          {[['', 'All'], ['Resort', 'Resorts'], ['Luxury Stay', 'Luxury stays']].map(([v, l]) => (
             <button type="button" key={l} onClick={() => setF({ ...f, type: v })} aria-pressed={f.type === v}
               className={`rounded-full px-5 py-2.5 text-sm transition-colors duration-500 ${f.type === v ? 'bg-ivory text-primary' : 'border border-white/25 text-ivory/90 hover:bg-white/10'}`}>{l}</button>
           ))}

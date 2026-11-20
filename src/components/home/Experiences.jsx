@@ -3,12 +3,9 @@ import { gsap, useGsap } from '../../lib/motion';
 import Img from '../common/Img';
 
 const EXP = [
-  ['Private Pool Villas', 'pool', '1499793983690-e29da59ef1c2', 'Villa with a private swimming pool'],
-  ['Luxury Resorts', 'resort', '1582719508461-905c673771fd', 'Luxury resort pool surrounded by loungers'],
-  ['Family Getaways', 'family', '1602343168117-bb8ffe3e2e9f', 'Spacious family villa with garden lawn'],
-  ['Nature Retreats', 'nature', '1441974231531-c6227db76b6e', 'Sunlight through a quiet forest'],
-  ['Mountain View Villas', 'mountain', '1506905925346-21bda4d32df4', 'Mountain range above morning mist'],
-  ['Couple-Friendly Stays', 'couple', '1507525428034-b723cf961d3e', 'Secluded beach with calm water'],
+  ['Beach Side Resorts', 'beach', '1571896349842-33c89424de2d', 'Beach side resort pool at golden hour'],
+  ['Luxury Stays', 'luxury', '1600585154340-be6161a56a0c', 'Luxury stay with an illuminated terrace'],
+  ['Mountain Retreats', 'mountain', '1506905925346-21bda4d32df4', 'Mountain range above morning mist'],
 ];
 /** Pinned full-screen stage: the card frame expands to the viewport, then images cross-fade with scroll. */
 export default function Experiences() {

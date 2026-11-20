@@ -4,11 +4,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useGsap } from '../lib/motion';
 import { Lines } from '../components/common/Type';
 import VillaCard from '../components/property/VillaCard';
-import { AMENITIES, DESTINATIONS, PROPERTIES, TYPES, inr } from '../data/properties';
+import { AMENITIES, DESTINATIONS, TYPES, TAG_LABELS as TAGS, inr } from '../data/properties';
+import { useProperties } from '../lib/store';
 
-const MAXP = 30000;
+const MAXP = 60000;
 const DEF = { q: '', dest: '', type: '', tag: '', max: MAXP, beds: 0, guests: 0, pool: false, ac: '', am: [], sort: 'recommended' };
-const TAGS = { pool: 'Private pool', resort: 'Resorts', family: 'Family', nature: 'Nature', mountain: 'Mountain view', couple: 'Couples' };
 const inp = 'w-full border border-primary/20 bg-transparent px-3 py-2.5 text-sm outline-none transition-colors focus:border-gold';
 
 export default function Villas() {
@@ -17,19 +17,20 @@ export default function Villas() {
   const [show, setShow] = useState(6), [loading, setLoading] = useState(true), [panel, setPanel] = useState(false);
   const set = (k, v) => setF((s) => ({ ...s, [k]: v }));
   const ref = useGsap();
+  const all = useProperties();
 
   useEffect(() => { setLoading(true); setShow(6); const t = setTimeout(() => setLoading(false), 380); return () => clearTimeout(t); }, [f]);
 
   const list = useMemo(() => {
     const q = f.q.trim().toLowerCase();
-    const r = PROPERTIES.filter((p) =>
+    const r = all.filter((p) =>
       (!q || `${p.name} ${p.destination}`.toLowerCase().includes(q)) && (!f.dest || p.destination === f.dest) && (!f.type || p.type === f.type) &&
       (!f.tag || p.tags.includes(f.tag)) && p.price <= f.max && p.beds >= f.beds && p.guests >= f.guests && (!f.pool || p.pool) &&
       (f.ac === '' || (f.ac === 'ac') === p.ac) && f.am.every((a) => p.amenities.includes(a)));
     if (f.sort === 'low') return [...r].sort((a, b) => a.price - b.price);
     if (f.sort === 'high') return [...r].sort((a, b) => b.price - a.price);
     return r;
-  }, [f]);
+  }, [f, all]);
 
   const chips = [
     f.q && ['q', `“${f.q}”`], f.dest && ['dest', f.dest], f.type && ['type', f.type], f.tag && ['tag', TAGS[f.tag]],
@@ -65,7 +66,7 @@ export default function Villas() {
       <header className="bg-primary px-5 pb-16 pt-36 text-ivory md:px-10 md:pb-24 md:pt-44">
         <div className="mx-auto max-w-[1400px]">
           <nav aria-label="Breadcrumb" className="mb-6 text-xs text-ivory/60"><Link to="/" className="link-u">Home</Link> / Explore Villas</nav>
-          <Lines as="h1" lines={['Explore villas', 'and resorts']} className="font-serif text-[clamp(2.8rem,7vw,6.5rem)] leading-[.98]" />
+          <Lines as="h1" lines={['Explore our resorts', 'and luxury stays']} className="font-serif text-[clamp(2.8rem,7vw,6.5rem)] leading-[.98]" />
           <p data-fade data-delay="0.4" className="mt-6 max-w-lg text-ivory/70">Filter by destination, size, price and amenities, then contact the owner of any stay directly.</p>
         </div>
       </header>

@@ -24,7 +24,7 @@ export default function VillaCard({ p, aspect = 'aspect-[4/3]', reveal = false, 
           <p className="shrink-0 text-right text-sm text-ink"><span className="block text-xs text-muted">From</span><span className="font-medium">{inr(p.price)}</span><span className="text-xs text-muted"> / night</span></p>
         </div>
         <p className="mt-3 text-sm text-ink/70">{p.beds} bedrooms · {p.baths} bathrooms · {p.guests} guests{p.pool ? ' · Pool' : ''}</p>
-        <p className="mt-2 text-[11px] text-muted/80">Demo listing</p>
+        {p.demo && <p className="mt-2 text-[11px] text-muted/80">Demo listing</p>}
       </div>
     </Link>
   );
