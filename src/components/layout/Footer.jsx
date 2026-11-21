@@ -6,7 +6,7 @@ import { Logo } from './Navbar';
 export default function Footer() {
   return (
     <footer className="bg-deep px-5 pb-8 pt-20 text-ivory md:px-10">
-      <div className="mx-auto grid max-w-[1500px] gap-12 md:grid-cols-12">
+      <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-12">
         <div className="md:col-span-5">
           <Logo light />
           <p className="mt-6 max-w-sm font-serif text-2xl leading-snug text-ivory/90">Discover. Experience. Escape.</p>
@@ -23,7 +23,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="mx-auto mt-16 flex max-w-[1500px] flex-col gap-3 border-t border-ivory/10 pt-6 text-xs text-ivory/50 md:flex-row md:justify-between">
+      <div className="mx-auto mt-16 flex max-w-[1400px] flex-col gap-3 border-t border-ivory/10 pt-6 text-xs text-ivory/50 md:flex-row md:justify-between">
         <p>© {new Date().getFullYear()} CM Villas. All listings, prices and reviews shown are demonstration content. Photos from Unsplash.</p>
         <p className="flex gap-5"><Link className="link-u" to="/privacy-policy">Privacy Policy</Link><Link className="link-u" to="/terms-and-conditions">Terms &amp; Conditions</Link></p>
       </div>

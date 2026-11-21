@@ -5,7 +5,7 @@ import { useGsap } from '../lib/motion';
 import { Lines } from '../components/common/Type';
 import VillaCard from '../components/property/VillaCard';
 import { AMENITIES, DESTINATIONS, TYPES, TAG_LABELS as TAGS, inr } from '../data/properties';
-import { useProperties } from '../lib/store';
+import { useProperties, useBookings } from '../lib/store';
 
 const MAXP = 60000;
 const DEF = { q: '', dest: '', type: '', tag: '', max: MAXP, beds: 0, guests: 0, pool: false, ac: '', am: [], sort: 'recommended' };
@@ -19,6 +19,7 @@ export default function Villas() {
   const set = (k, v) => setF((s) => ({ ...s, [k]: v }));
   const ref = useGsap();
   const all = useProperties();
+  useBookings();
 
   useEffect(() => { setLoading(true); setShow(6); const t = setTimeout(() => setLoading(false), 380); return () => clearTimeout(t); }, [f]);
 
@@ -64,11 +65,16 @@ export default function Villas() {
 
   return (
     <div ref={ref}>
-      <header className="bg-primary px-5 pb-16 pt-36 text-ivory md:px-10 md:pb-24 md:pt-44">
-        <div className="mx-auto max-w-[1400px]">
-          <nav aria-label="Breadcrumb" className="mb-6 text-xs text-ivory/60"><Link to="/" className="link-u">Home</Link> / Explore Villas</nav>
-          <Lines as="h1" lines={['Explore our resorts', 'and luxury stays']} className="font-serif text-[clamp(2.8rem,7vw,6.5rem)] leading-[.98]" />
-          <p data-fade data-delay="0.4" className="mt-6 max-w-lg text-ivory/70">Filter by destination, size, price and amenities, then contact the owner of any stay directly.</p>
+      <header className="bg-primary px-5 pb-16 pt-32 text-ivory md:px-10 md:pb-24 md:pt-40">
+        <div className="mx-auto grid max-w-[1400px] items-center gap-10 lg:grid-cols-12 lg:gap-16">
+          <div data-clip className="order-2 aspect-[4/3] overflow-hidden lg:order-1 lg:col-span-5">
+            <div className="h-full"><img src="/explore-hero.jpg" width="1400" height="1050" alt="Garden gazebo with a pergola, palm trees and a landscaped lawn" className="h-full w-full object-cover" /></div>
+          </div>
+          <div className="order-1 lg:order-2 lg:col-span-7">
+            <nav aria-label="Breadcrumb" className="mb-6 text-xs text-ivory/60"><Link to="/" className="link-u">Home</Link> / Explore Villas</nav>
+            <Lines as="h1" lines={['Explore our resorts', 'and luxury stays']} className="font-serif text-[clamp(2.6rem,5.2vw,5rem)] leading-[1]" />
+            <p data-fade data-delay="0.4" className="mt-6 max-w-lg text-ivory/70">Filter by destination, size, price and amenities, then book or enquire about any stay directly.</p>
+          </div>
         </div>
       </header>
       <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-12 md:px-10 md:py-20 lg:grid-cols-[290px_1fr] lg:gap-16">

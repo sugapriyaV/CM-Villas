@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useProperties, saveProperty, removeProperty, resetProperties } from '../lib/store';
+import { useProperties, saveProperty, removeProperty, resetProperties, useBookings, useEnquiries, cancelBooking, deleteEnquiry } from '../lib/store';
 import { DESTINATIONS, TYPES, TAG_LABELS, inr } from '../data/properties';
 const weekendOf = (p) => p.weekendPrice ?? p.price;
 import { getEvents, clearEvents } from '../lib/analytics';
@@ -224,7 +224,30 @@ function Manager() {
   );
 }
 
-const TABS = [['dash', 'Dashboard'], ['res', 'Resorts'], ['rep', 'Reports']];
+const fd = (s) => (s ? new Date(s + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not given');
+function Bookings() {
+  const bk = [...useBookings()].sort((a, b) => a.inn.localeCompare(b.inn)), eq = [...useEnquiries()].sort((a, b) => b.createdAt - a.createdAt);
+  const [ask, setAsk] = useState(null);
+  const th = (h) => <th key={h} className="pb-2 pr-4 font-normal">{h}</th>;
+  return (
+    <div className="space-y-8">
+      <p className="border-l-2 border-gold bg-gold/10 p-3 text-sm text-ink/80">Bookings and enquiries from the website are saved in this browser until the backend is connected. Cancelling a booking frees its dates for other guests.</p>
+      <div className={`${card} overflow-x-auto`}><h2 className="font-serif text-2xl text-primary">Bookings ({bk.length})</h2>
+        <table className="mt-4 w-full min-w-[720px] text-sm"><thead><tr className="text-left text-xs text-muted">{['Resort', 'Guest', 'Mobile', 'Stay', 'Guests', 'Estimate', ''].map(th)}</tr></thead>
+          <tbody>{bk.map((b) => <tr key={b.id} className="border-t border-primary/10"><td className="py-3 pr-4">{b.propertyName}</td><td className="pr-4">{b.name}</td><td className="pr-4"><a className="link-u" href={`tel:+91${b.phone}`}>{b.phone}</a></td><td className="pr-4">{fd(b.inn)} to {fd(b.out)}</td><td className="pr-4">{b.guests}</td><td className="pr-4">{inr(b.total)}</td>
+            <td className="text-right"><button className="link-u text-red-700" onClick={() => setAsk({ title: 'Cancel this booking?', text: `${b.name}'s stay at ${b.propertyName} will be cancelled and the dates become available again.`, yes: 'Yes, cancel', fn: () => cancelBooking(b.id) })}>Cancel booking</button></td></tr>)}
+            {!bk.length && <tr><td colSpan="7" className="py-6 text-center text-muted">No bookings yet.</td></tr>}</tbody></table></div>
+      <div className={`${card} overflow-x-auto`}><h2 className="font-serif text-2xl text-primary">Enquiries ({eq.length})</h2>
+        <table className="mt-4 w-full min-w-[720px] text-sm"><thead><tr className="text-left text-xs text-muted">{['Resort', 'Guest', 'Mobile', 'Dates', 'Message', ''].map(th)}</tr></thead>
+          <tbody>{eq.map((q) => <tr key={q.id} className="border-t border-primary/10 align-top"><td className="py-3 pr-4">{q.propertyName}</td><td className="pr-4">{q.name}</td><td className="pr-4"><a className="link-u" href={`tel:+91${q.phone}`}>{q.phone}</a></td><td className="pr-4">{q.inn ? `${fd(q.inn)} to ${fd(q.out)}` : 'Not given'}</td><td className="max-w-[220px] pr-4">{q.message || '-'}</td>
+            <td className="space-x-4 text-right"><a className="link-u text-primary" href={`https://wa.me/91${q.phone}`} target="_blank" rel="noopener noreferrer">WhatsApp</a><button className="link-u text-red-700" onClick={() => setAsk({ title: 'Delete this enquiry?', text: 'It will be removed from the list.', yes: 'Yes, delete', fn: () => deleteEnquiry(q.id) })}>Delete</button></td></tr>)}
+            {!eq.length && <tr><td colSpan="6" className="py-6 text-center text-muted">No enquiries yet.</td></tr>}</tbody></table></div>
+      {ask && <Confirm title={ask.title} text={ask.text} yes={ask.yes} onNo={() => setAsk(null)} onYes={() => { ask.fn(); setAsk(null); }} />}
+    </div>
+  );
+}
+
+const TABS = [['dash', 'Dashboard'], ['res', 'Resorts'], ['book', 'Bookings'], ['rep', 'Reports']];
 export default function Admin() {
   const [ok, setOk] = useState(() => sessionStorage.getItem('cmv_admin') === '1'), [tab, setTab] = useState('dash');
   useEffect(() => {
@@ -240,7 +263,7 @@ export default function Admin() {
         <nav aria-label="Admin" className="flex flex-wrap items-center gap-6 text-sm">
           {TABS.map(([k, l]) => <button key={k} onClick={() => setTab(k)} aria-current={tab === k} className={`link-u ${tab === k ? 'on' : ''}`}>{l}</button>)}
           <a href="/" target="_blank" rel="noopener noreferrer" className="link-u">View website ↗</a><button onClick={out} className="link-u">Sign out</button></nav></div></header>
-      <main className="mx-auto max-w-6xl px-5 py-10"><h1 className="mb-8 font-serif text-4xl text-primary">{TABS.find((t) => t[0] === tab)[1]}</h1>{tab === 'dash' ? <Dashboard /> : tab === 'res' ? <Manager /> : <Reports />}</main>
+      <main className="mx-auto max-w-6xl px-5 py-10"><h1 className="mb-8 font-serif text-4xl text-primary">{TABS.find((t) => t[0] === tab)[1]}</h1>{tab === 'dash' ? <Dashboard /> : tab === 'res' ? <Manager /> : tab === 'book' ? <Bookings /> : <Reports />}</main>
     </div>
   );
 }

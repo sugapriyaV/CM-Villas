@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import { StagePage, NotFound, About } from './pages/Stage';
+import { StagePage, NotFound, About, Contact, VillaDetails } from './pages/Stage';
 import { waLink } from './lib/site';
 import { ScrollTrigger, initSmooth, lenis } from './lib/motion';
 import { track } from './lib/analytics';
@@ -55,9 +55,9 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/villas" element={<Villas />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/villas/:slug" element={later('Villa details', 'Gallery, rooms, pricing, owner contact and the enquiry form arrive in Stage 2.')} />
+              <Route path="/villas/:slug" element={<VillaDetails />} />
               <Route path="/about" element={<About />} />
-              <Route path="/contact" element={later('Contact us')} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/privacy-policy" element={later('Privacy policy')} />
               <Route path="/terms-and-conditions" element={later('Terms and conditions')} />
               <Route path="*" element={<NotFound />} />
