@@ -20,9 +20,8 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-ivory/75">
             <li><a className="link-u" href={`tel:${SITE.phone}`}>{SITE.phoneLabel}</a></li>
             <li><a className="link-u" href={waLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-            <li><a className="link-u" href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
           </ul>
-          <p className="mt-4 text-xs text-ivory/40">Placeholder contact details until the real ones are supplied.</p></div>
+        </div>
       </div>
       <div className="mx-auto mt-16 flex max-w-[1500px] flex-col gap-3 border-t border-ivory/10 pt-6 text-xs text-ivory/50 md:flex-row md:justify-between">
         <p>© {new Date().getFullYear()} CM Villas. All listings, prices and reviews shown are demonstration content. Photos from Unsplash.</p>

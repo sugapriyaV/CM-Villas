@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import Img from '../common/Img';
-import { inr } from '../../data/properties';
+import { inr, rate, isWeekend, stay } from '../../data/properties';
 
-export default function VillaCard({ p, aspect = 'aspect-[4/3]', reveal = false, delay = 0, sizes = '(min-width:1024px) 40vw, 100vw' }) {
+export default function VillaCard({ p, aspect = 'aspect-[4/3]', reveal = false, delay = 0, dates = null, sizes = '(min-width:1024px) 40vw, 100vw' }) {
+  const est = dates ? stay(p, dates.inn, dates.out) : null;
   const clip = reveal ? { 'data-clip': '', 'data-delay': delay } : {};
   const fade = reveal ? { 'data-fade': '', 'data-delay': delay + 0.5 } : {};
   return (
@@ -21,9 +22,10 @@ export default function VillaCard({ p, aspect = 'aspect-[4/3]', reveal = false, 
             <h3 className="font-serif text-2xl leading-tight text-primary md:text-[1.9rem]"><span className="link-u">{p.name}</span></h3>
             <p className="mt-1 text-sm text-muted">{p.destination}, {p.destination === 'Pondicherry' ? 'Puducherry' : 'Tamil Nadu'}</p>
           </div>
-          <p className="shrink-0 text-right text-sm text-ink"><span className="block text-xs text-muted">From</span><span className="font-medium">{inr(p.price)}</span><span className="text-xs text-muted"> / night</span></p>
+          <p className="shrink-0 text-right text-sm text-ink">{est ? <><span className="block text-xs text-muted">{est.n} {est.n === 1 ? 'night' : 'nights'}, estimate</span><span className="font-medium">{inr(est.total)}</span></> : <><span className="block text-xs text-muted">{isWeekend() ? 'Weekend rate' : 'Weekday rate'}</span><span className="font-medium">{inr(rate(p))}</span><span className="text-xs text-muted"> / night</span></>}</p>
         </div>
         <p className="mt-3 text-sm text-ink/70">{p.beds} bedrooms · {p.baths} bathrooms · {p.guests} guests{p.pool ? ' · Pool' : ''}</p>
+        <p className="mt-2 text-xs text-ink/60">Weekdays {inr(p.price)} · Weekends {inr(p.weekendPrice ?? p.price)}</p>
         {p.demo && <p className="mt-2 text-[11px] text-muted/80">Demo listing</p>}
       </div>
     </Link>

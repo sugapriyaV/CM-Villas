@@ -13,6 +13,7 @@ const inp = 'w-full border border-primary/20 bg-transparent px-3 py-2.5 text-sm 
 
 export default function Villas() {
   const [sp] = useSearchParams();
+  const dates = sp.get('in') && sp.get('out') && sp.get('out') > sp.get('in') ? { inn: sp.get('in'), out: sp.get('out') } : null;
   const [f, setF] = useState(() => ({ ...DEF, dest: sp.get('dest') || '', type: sp.get('type') || '', tag: sp.get('tag') || '', guests: +sp.get('guests') > 2 ? +sp.get('guests') : 0, pool: sp.get('pool') === '1' }));
   const [show, setShow] = useState(6), [loading, setLoading] = useState(true), [panel, setPanel] = useState(false);
   const set = (k, v) => setF((s) => ({ ...s, [k]: v }));
@@ -82,6 +83,7 @@ export default function Villas() {
               <select id="sort" className="border border-primary/20 bg-transparent px-3 py-2 outline-none focus:border-gold" value={f.sort} onChange={(e) => set('sort', e.target.value)}>
                 <option value="recommended">Recommended</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
           </div>
+          {dates && <p className="mt-4 text-sm text-ink/70">Estimated totals for {dates.inn} to {dates.out}, priced night by night at weekday and weekend rates. The owner confirms the final price.</p>}
           {chips.length > 0 && (
             <div className="mt-5 flex flex-wrap items-center gap-2" aria-label="Active filters">
               {chips.map(([k, l]) => <button key={k} onClick={() => clear(k)} aria-label={`Remove filter ${l}`} className="rounded-full border border-primary/25 px-3.5 py-1.5 text-xs text-primary transition-colors hover:border-gold hover:bg-gold/15">{l} ×</button>)}
@@ -91,7 +93,7 @@ export default function Villas() {
             {loading ? [0, 1, 2, 3, 4, 5].map((n) => <div key={n} className="animate-pulse" aria-hidden><div className="aspect-[4/3] bg-primary/10" /><div className="mt-5 h-5 w-2/3 bg-primary/10" /><div className="mt-3 h-4 w-1/2 bg-primary/10" /></div>)
               : <AnimatePresence mode="popLayout">{list.slice(0, show).map((p, i) => (
                 <motion.div key={p.id} layout initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}>
-                  <VillaCard p={p} sizes="(min-width:1280px) 28vw, (min-width:640px) 45vw, 100vw" /></motion.div>))}</AnimatePresence>}
+                  <VillaCard p={p} dates={dates} sizes="(min-width:1280px) 28vw, (min-width:640px) 45vw, 100vw" /></motion.div>))}</AnimatePresence>}
           </div>
           {!loading && list.length === 0 && (
             <div className="py-20 text-center"><h2 className="font-serif text-4xl text-primary">No stays match these filters</h2><p className="mx-auto mt-3 max-w-sm text-sm text-muted">Try widening the price, removing an amenity or choosing another destination.</p>
