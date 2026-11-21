@@ -33,7 +33,7 @@ export default function Navbar() {
     <>
       <motion.header initial={{ y: -30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1.1, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,padding] duration-700 ${clear || open ? 'py-6' : 'py-3.5 bg-ivory/95 backdrop-blur-md shadow-[0_1px_0_rgba(24,59,50,.08),0_10px_30px_-20px_rgba(24,59,50,.35)]'}`}>
-        <div className={`mx-auto flex max-w-[1500px] items-center justify-between px-5 md:px-10 ${light ? 'text-ivory' : 'text-primary'}`}>
+        <div className={`mx-auto flex max-w-[1400px] items-center justify-between px-5 md:px-10 ${light ? 'text-ivory' : 'text-primary'}`}>
           <Logo light={light} />
           <nav aria-label="Primary" className="hidden items-center gap-9 text-sm lg:flex">
             {LINKS.map(([to, l]) => (
