@@ -13,7 +13,7 @@ export default function Footer() {
           <p className="mt-4 max-w-sm text-sm text-ivory/60">Private villas and resorts, with owners you can reach directly.</p>
         </div>
         <nav aria-label="Explore" className="md:col-span-2"><h2 className="mb-4 font-sans text-sm font-medium text-gold">Explore</h2>
-          <ul className="space-y-2 text-sm text-ivory/75">{[['/villas', 'Explore Villas'], ['/destinations', 'Destinations'], ['/about', 'About Us'], ['/contact', 'Contact']].map(([t, l]) => <li key={t}><Link className="link-u" to={t}>{l}</Link></li>)}</ul></nav>
+          <ul className="space-y-2 text-sm text-ivory/75">{[['/villas', 'Explore Villas'], ['/about', 'About Us'], ['/contact', 'Contact']].map(([t, l]) => <li key={t}><Link className="link-u" to={t}>{l}</Link></li>)}</ul></nav>
         <nav aria-label="Destinations" className="md:col-span-2"><h2 className="mb-4 font-sans text-sm font-medium text-gold">Destinations</h2>
           <ul className="space-y-2 text-sm text-ivory/75">{DESTINATIONS.map((d) => <li key={d}><Link className="link-u" to={`/villas?dest=${d}`}>{d}</Link></li>)}</ul></nav>
         <div className="md:col-span-3"><h2 className="mb-4 font-sans text-sm font-medium text-gold">Talk to us</h2>

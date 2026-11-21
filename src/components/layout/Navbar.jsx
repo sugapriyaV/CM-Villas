@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SITE, waLink } from '../../lib/site';
+import { SITE } from '../../lib/site';
 import { lenis } from '../../lib/motion';
 
-const LINKS = [['/', 'Home'], ['/villas', 'Explore Villas'], ['/destinations', 'Destinations'], ['/about', 'About Us'], ['/contact', 'Contact']];
+const LINKS = [['/', 'Home'], ['/villas', 'Explore Villas'], ['/about', 'About Us'], ['/contact', 'Contact']];
 export const Logo = ({ light }) => (
   <Link to="/" aria-label="CM Villas home" className={`flex items-baseline gap-2 ${light ? 'text-ivory' : 'text-primary'}`}>
     <span className="font-serif text-3xl font-semibold leading-none">CM</span>
@@ -42,7 +42,6 @@ export default function Navbar() {
           </nav>
           <div className="flex items-center gap-5 text-sm">
             <a href={`tel:${SITE.phone}`} className="link-u hidden xl:inline">{SITE.phoneLabel}</a>
-            <a href={waLink()} target="_blank" rel="noopener noreferrer" className="link-u hidden xl:inline">WhatsApp</a>
             <Link to="/villas" className={`btn hidden md:inline-flex ${light ? 'bg-ivory text-primary hover:bg-gold' : 'bg-primary text-ivory hover:bg-deep'}`}>Explore Villas <span className="arr">↗</span></Link>
             <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-[7px] lg:hidden">
               <span className={`h-px w-7 bg-current transition-transform duration-500 ${open ? 'translate-y-[4px] rotate-45' : ''}`} />
@@ -65,7 +64,7 @@ export default function Navbar() {
               ))}
             </nav>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="mt-12 flex gap-6 text-sm text-ivory/80">
-              <a href={`tel:${SITE.phone}`}>Call</a><a href={waLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href={`tel:${SITE.phone}`}>Call</a>
             </motion.div>
           </motion.div>
         )}
