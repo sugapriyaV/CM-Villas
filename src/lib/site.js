@@ -1,3 +1,3 @@
-// EDIT: placeholder business details (demonstration content, not real contacts).
-export const SITE = { phone: '+910000000000', phoneLabel: '+91 00000 00000', wa: '910000000000', email: 'hello@cmvillas.example' };
-export const waLink = (msg = 'Hi, I found CM Villas and would like to know more.') => `https://wa.me/${SITE.wa}?text=${encodeURIComponent(msg)}`;
+// Business contact details used across the site.
+export const SITE = { phone: '+917418311855', phoneLabel: '+91 74183 11855', wa: '917418311855' };
+export const waLink = (msg = 'Hi! I’m interested in your villas. Could you share more details, please?') => `https://wa.me/${SITE.wa}?text=${encodeURIComponent(msg)}`;

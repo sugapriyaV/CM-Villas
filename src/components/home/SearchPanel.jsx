@@ -4,7 +4,7 @@ import { DESTINATIONS } from '../../data/properties';
 import { track } from '../../lib/analytics';
 
 const today = () => new Date().toISOString().slice(0, 10);
-const field = 'gf w-full rounded-full border border-white/20 bg-white/5 px-5 py-3.5 text-sm text-ivory outline-none transition-colors focus:border-gold [&>option]:text-ink';
+const field = 'gf w-full rounded-full border border-white/20 bg-white/5 px-5 py-3.5 text-sm text-ivory outline-none transition-colors focus:border-gold [color-scheme:dark] [&>option]:text-ink';
 export default function SearchPanel() {
   const nav = useNavigate();
   const [f, setF] = useState({ type: '', dest: '', inn: '', out: '', guests: '2' });
@@ -13,6 +13,7 @@ export default function SearchPanel() {
     e.preventDefault();
     const q = new URLSearchParams();
     if (f.type) q.set('type', f.type); if (f.dest) q.set('dest', f.dest); q.set('guests', f.guests);
+    if (f.inn && f.out && f.out > f.inn) { q.set('in', f.inn); q.set('out', f.out); }
     track('search', { dest: f.dest || 'all' });
     nav(`/villas?${q}`);
   };
