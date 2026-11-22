@@ -13,7 +13,6 @@ export default function SearchPanel() {
     e.preventDefault();
     const q = new URLSearchParams();
     if (f.type) q.set('type', f.type); if (f.dest) q.set('dest', f.dest); q.set('guests', f.guests);
-    if (f.inn && f.out && f.out > f.inn) { q.set('in', f.inn); q.set('out', f.out); }
     track('search', { dest: f.dest || 'all' });
     nav(`/villas?${q}`);
   };

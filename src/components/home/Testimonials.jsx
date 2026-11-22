@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useGsap } from '../../lib/motion';
 
-const T = [['A calm weekend with friends in the hills. Being able to speak to the owner before booking made all the difference.', 'Sample guest, Madurai'],
+const T = [['A calm weekend with friends in the hills. Being able to speak to the owner before booking made all the difference.', 'Sample guest, Chennai'],
   ['The enquiry took a minute, and the reply came the same evening. Everything was clear before we arrived.', 'Sample guest, Bengaluru'],
   ['Rates and house rules were laid out plainly, so there were no surprises for the family.', 'Sample guest, Coimbatore']];
 export default function Testimonials() {

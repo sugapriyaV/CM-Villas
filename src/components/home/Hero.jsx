@@ -31,6 +31,7 @@ export default function Hero() {
         <p className="hero-fade mt-6 max-w-md text-base text-ivory/85 md:text-lg">Discover exceptional private villas and resorts for unforgettable stays.</p>
         <div className="hero-fade mt-8 flex flex-wrap justify-center gap-3">
           <Link to="/villas" className="btn bg-ivory text-primary hover:bg-gold">Explore Villas <span className="arr">↗</span></Link>
+          <Link to="/destinations" className="btn border border-ivory/40 text-ivory hover:bg-ivory/10">Discover Destinations</Link>
         </div>
       </div>
       <div className="relative z-10 px-4 pb-6 md:px-10 md:pb-10"><SearchPanel /></div>

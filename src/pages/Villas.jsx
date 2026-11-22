@@ -5,7 +5,7 @@ import { useGsap } from '../lib/motion';
 import { Lines } from '../components/common/Type';
 import VillaCard from '../components/property/VillaCard';
 import { AMENITIES, DESTINATIONS, TYPES, TAG_LABELS as TAGS, inr } from '../data/properties';
-import { useProperties, useBookings } from '../lib/store';
+import { useProperties } from '../lib/store';
 
 const MAXP = 60000;
 const DEF = { q: '', dest: '', type: '', tag: '', max: MAXP, beds: 0, guests: 0, pool: false, ac: '', am: [], sort: 'recommended' };
@@ -13,13 +13,11 @@ const inp = 'w-full border border-primary/20 bg-transparent px-3 py-2.5 text-sm 
 
 export default function Villas() {
   const [sp] = useSearchParams();
-  const dates = sp.get('in') && sp.get('out') && sp.get('out') > sp.get('in') ? { inn: sp.get('in'), out: sp.get('out') } : null;
   const [f, setF] = useState(() => ({ ...DEF, dest: sp.get('dest') || '', type: sp.get('type') || '', tag: sp.get('tag') || '', guests: +sp.get('guests') > 2 ? +sp.get('guests') : 0, pool: sp.get('pool') === '1' }));
   const [show, setShow] = useState(6), [loading, setLoading] = useState(true), [panel, setPanel] = useState(false);
   const set = (k, v) => setF((s) => ({ ...s, [k]: v }));
   const ref = useGsap();
   const all = useProperties();
-  useBookings();
 
   useEffect(() => { setLoading(true); setShow(6); const t = setTimeout(() => setLoading(false), 380); return () => clearTimeout(t); }, [f]);
 
@@ -65,16 +63,11 @@ export default function Villas() {
 
   return (
     <div ref={ref}>
-      <header className="bg-primary px-5 pb-16 pt-32 text-ivory md:px-10 md:pb-24 md:pt-40">
-        <div className="mx-auto grid max-w-[1400px] items-center gap-10 lg:grid-cols-12 lg:gap-16">
-          <div data-clip className="order-2 aspect-[4/3] overflow-hidden lg:order-1 lg:col-span-5">
-            <div className="h-full"><img src="/explore-hero.jpg" width="1400" height="1050" alt="Garden gazebo with a pergola, palm trees and a landscaped lawn" className="h-full w-full object-cover" /></div>
-          </div>
-          <div className="order-1 lg:order-2 lg:col-span-7">
-            <nav aria-label="Breadcrumb" className="mb-6 text-xs text-ivory/60"><Link to="/" className="link-u">Home</Link> / Explore Villas</nav>
-            <Lines as="h1" lines={['Explore our resorts', 'and luxury stays']} className="font-serif text-[clamp(2.6rem,5.2vw,5rem)] leading-[1]" />
-            <p data-fade data-delay="0.4" className="mt-6 max-w-lg text-ivory/70">Filter by destination, size, price and amenities, then book or enquire about any stay directly.</p>
-          </div>
+      <header className="bg-primary px-5 pb-16 pt-36 text-ivory md:px-10 md:pb-24 md:pt-44">
+        <div className="mx-auto max-w-[1400px]">
+          <nav aria-label="Breadcrumb" className="mb-6 text-xs text-ivory/60"><Link to="/" className="link-u">Home</Link> / Explore Villas</nav>
+          <Lines as="h1" lines={['Explore our resorts', 'and luxury stays']} className="font-serif text-[clamp(2.8rem,7vw,6.5rem)] leading-[.98]" />
+          <p data-fade data-delay="0.4" className="mt-6 max-w-lg text-ivory/70">Filter by destination, size, price and amenities, then contact the owner of any stay directly.</p>
         </div>
       </header>
       <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-12 md:px-10 md:py-20 lg:grid-cols-[290px_1fr] lg:gap-16">
@@ -89,7 +82,6 @@ export default function Villas() {
               <select id="sort" className="border border-primary/20 bg-transparent px-3 py-2 outline-none focus:border-gold" value={f.sort} onChange={(e) => set('sort', e.target.value)}>
                 <option value="recommended">Recommended</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
           </div>
-          {dates && <p className="mt-4 text-sm text-ink/70">Estimated totals for {dates.inn} to {dates.out}, priced night by night at weekday and weekend rates. The owner confirms the final price.</p>}
           {chips.length > 0 && (
             <div className="mt-5 flex flex-wrap items-center gap-2" aria-label="Active filters">
               {chips.map(([k, l]) => <button key={k} onClick={() => clear(k)} aria-label={`Remove filter ${l}`} className="rounded-full border border-primary/25 px-3.5 py-1.5 text-xs text-primary transition-colors hover:border-gold hover:bg-gold/15">{l} ×</button>)}
@@ -99,7 +91,7 @@ export default function Villas() {
             {loading ? [0, 1, 2, 3, 4, 5].map((n) => <div key={n} className="animate-pulse" aria-hidden><div className="aspect-[4/3] bg-primary/10" /><div className="mt-5 h-5 w-2/3 bg-primary/10" /><div className="mt-3 h-4 w-1/2 bg-primary/10" /></div>)
               : <AnimatePresence mode="popLayout">{list.slice(0, show).map((p, i) => (
                 <motion.div key={p.id} layout initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}>
-                  <VillaCard p={p} dates={dates} sizes="(min-width:1280px) 28vw, (min-width:640px) 45vw, 100vw" /></motion.div>))}</AnimatePresence>}
+                  <VillaCard p={p} sizes="(min-width:1280px) 28vw, (min-width:640px) 45vw, 100vw" /></motion.div>))}</AnimatePresence>}
           </div>
           {!loading && list.length === 0 && (
             <div className="py-20 text-center"><h2 className="font-serif text-4xl text-primary">No stays match these filters</h2><p className="mx-auto mt-3 max-w-sm text-sm text-muted">Try widening the price, removing an amenity or choosing another destination.</p>
